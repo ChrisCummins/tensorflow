@@ -4,6 +4,7 @@ load(
     "//tensorflow/core/platform:default/build_config.bzl",
     "tf_proto_library_py",
 )
+load("@build_stack_rules_proto//python:python_proto_library.bzl", "python_proto_library")
 
 package(
     default_visibility = ["//tensorflow:internal"],
@@ -42,6 +43,18 @@ xla_proto_library(
     visibility = ["//visibility:public"],
 )
 
+proto_library(
+    name = "xla_data_proto_lib",
+    srcs = ["xla_data.proto"],
+    visibility = ["//visibility:public"],
+)
+
+python_proto_library(
+    name = "xla_data_proto_lib_py",
+    deps = ["xla_data_proto_lib"],
+    visibility = ["//visibility:public"],
+)
+
 tf_proto_library_py(
     name = "xla_data_proto",  # bzl adds a _py suffix
     srcs = ["xla_data.proto"],
@@ -56,6 +69,21 @@ xla_proto_library(
         ":xla_data_proto",
         "//tensorflow/compiler/xla/service:hlo_proto",
     ],
+)
+
+proto_library(
+    name = "xla_proto_lib",
+    srcs = ["xla.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tensorflow/compiler/xla/service:hlo_proto_lib"
+    ]
+)
+
+python_proto_library(
+    name = "xla_proto_lib_py",
+    deps = ["xla_proto_lib"],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(

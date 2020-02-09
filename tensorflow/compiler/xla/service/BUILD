@@ -16,6 +16,7 @@ load(
     "@local_config_rocm//rocm:build_defs.bzl",
     "if_rocm_is_configured",
 )
+load("@build_stack_rules_proto//python:python_proto_library.bzl", "python_proto_library")
 
 package(
     default_visibility = [":friends"],
@@ -37,6 +38,19 @@ xla_proto_library(
     srcs = ["hlo.proto"],
     visibility = ["//visibility:public"],
     deps = ["//tensorflow/compiler/xla:xla_data_proto"],
+)
+
+proto_library(
+    name = "hlo_proto_lib",
+    srcs = ["hlo.proto"],
+    visibility = ["//visibility:public"],
+    deps = ["//tensorflow/compiler/xla:xla_data_proto_lib"],
+)
+
+python_proto_library(
+    name = "hlo_proto_lib_py",
+    deps = ["hlo_proto_lib"],
+    visibility = ["//visibility:public"],
 )
 
 tf_proto_library_py(
