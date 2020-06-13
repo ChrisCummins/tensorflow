@@ -158,6 +158,8 @@ load(
 )
 # Placeholder for Google-internal load statements.
 
+load("@build_stack_rules_proto//python:python_proto_library.bzl", "python_proto_library")
+
 package(
     default_visibility = [
         ":dependency_whitelist",
@@ -287,6 +289,12 @@ proto_library(
         "example/example.proto",
         "example/feature.proto",
     ],
+    visibility = ["//visibility:public"],
+)
+
+python_proto_library(
+    name = "example_protos_py",
+    deps = [":example_protos"],
     visibility = ["//visibility:public"],
 )
 
