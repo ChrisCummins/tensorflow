@@ -158,7 +158,9 @@ load(
 )
 # Placeholder for Google-internal load statements.
 
-load("@build_stack_rules_proto//python:python_proto_library.bzl", "python_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_proto_library")
+load("@com_github_grpc_grpc//bazel:python_rules.bzl", "py_proto_library")
 
 package(
     default_visibility = [
@@ -292,7 +294,13 @@ proto_library(
     visibility = ["//visibility:public"],
 )
 
-python_proto_library(
+cc_proto_library(
+    name = "example_protos_cc",
+    deps = [":example_protos"],
+    visibility = ["//visibility:public"],
+)
+
+py_proto_library(
     name = "example_protos_py",
     deps = [":example_protos"],
     visibility = ["//visibility:public"],
